@@ -1,40 +1,205 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# User Management App
 
-## Getting Started
+This project is a web application built with React, Next.js, and Prisma. It includes a `DataGrid` for managing user data, with features to add, update, delete, and sort user records. The backend is powered by Next.js API routes and Prisma for database operations.
 
-First, run the development server:
+## Table of Contents
+
+1. [Installation](#installation)
+2. [API Endpoints](#api-endpoints)
+3. [Prisma Setup](#prisma-setup)
+4. [Seeding the Database](#seeding-the-database)
+5. [Scripts](#scripts)
+
+---
+
+## Installation
+
+Follow these steps to set up the project:
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+or if you use Yarn:
+
+```bash
+yarn install
+```
+
+### 3. Install Prisma CLI
+
+```bash
+npm install @prisma/cli --save-dev
+```
+
+or if you use Yarn:
+
+```bash
+yarn add @prisma/cli --dev
+```
+
+---
+
+## API Endpoints
+
+The project provides several API endpoints to manage user data. These are accessible through `pages/api/users.ts`:
+
+### 1. `GET /api/users`
+
+- **Description**: Retrieve a list of all users.
+- **Response**: An array of user objects.
+
+### 2. `PUT /api/users`
+
+- **Description**: Update multiple users.
+- **Request Body**: An array of user objects to update.
+- **Response**: An array of updated user objects.
+- **Error Response**: `{ "error": "Failed to update user" }`
+
+### 3. `DELETE /api/users`
+
+- **Description**: Delete a user.
+- **Request Body**: `{ "id": number }` - The ID of the user to delete.
+- **Response**: `{ "message": "User deleted successfully" }`
+- **Error Response**: `{ "error": "Failed to delete user" }`
+
+---
+
+## Prisma Setup
+
+### 1. Initialize Prisma
+
+To initialize Prisma and set up your database, run:
+
+```bash
+npx prisma init
+```
+
+This will create a `prisma` directory with a `schema.prisma` file where you can define your data model.
+
+### 2. Update `schema.prisma`
+
+Define your user model in `prisma/schema.prisma`:
+
+```prisma
+datasource db {
+  provider = "sqlite"
+  url      = "file:../database/sqlite.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+  position  String
+  phone     String
+  email     String @unique
+}
+```
+
+### 3. Migrate Your Database
+
+Apply the Prisma migrations to create the database tables:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+### 4. Generate Prisma Client
+
+Generate the Prisma client to interact with the database:
+
+```bash
+npx prisma generate
+```
+
+---
+
+## Seeding the Database
+
+To run the seed script:
+
+```bash
+npx ts-node prisma/seed.js
+```
+
+---
+
+## Scripts
+
+### Development
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or if you use Yarn:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Build
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Build the project for production:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run build
+```
 
-## Learn More
+or if you use Yarn:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+yarn build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Start the production server:
 
-## Deploy on Vercel
+```bash
+npm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+or if you use Yarn:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+yarn start
+```
+
+### Lint
+
+Run ESLint to check for code quality issues:
+
+```bash
+npm run lint
+```
+
+or if you use Yarn:
+
+```bash
+yarn lint
+```
+
+---
+
+## Contributing
+
+Feel free to submit issues or pull requests. Please ensure that your code follows the project's style guidelines and includes appropriate tests.
+
+---
