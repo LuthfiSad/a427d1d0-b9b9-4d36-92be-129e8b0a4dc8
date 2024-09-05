@@ -35,16 +35,28 @@ or if you use Yarn:
 yarn install
 ```
 
-### 3. Install Prisma CLI
+### 3. Migrate Sqlite Database
+
+Apply the Prisma migrations to create the database tables:
 
 ```bash
-npm install @prisma/cli --save-dev
+npx prisma migrate dev --name init
 ```
 
-or if you use Yarn:
+### 4. Generate Prisma Client
+
+Generate the Prisma client to interact with the database:
 
 ```bash
-yarn add @prisma/cli --dev
+npx prisma generate
+```
+
+### 5. Seeding the Database
+
+To run the seed script:
+
+```bash
+npx ts-node prisma/seed.js
 ```
 
 ---
