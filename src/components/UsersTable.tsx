@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import UserInputGroup from "./UserInputGroup";
 
@@ -7,9 +7,7 @@ const paginationModel = { pageSize: 5, page: 0 };
 interface UsersTableProps {
   control: any;
   filteredUsers: User[];
-  errors: {
-    [key: number]: { [key in keyof User]?: any };
-  };
+  errors: any;
   changedFields: {
     [key: number]: { [key in keyof User]?: boolean };
   };
@@ -48,7 +46,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         control={control}
         index={params.row.index}
         field={field}
-        error={errors[params.row.index]}
+        error={errors.users}
         changedFields={changedFields}
         onSubmit={onSubmit}
         currentState={currentState}
